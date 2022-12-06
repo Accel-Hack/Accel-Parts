@@ -85,7 +85,7 @@
         <repository>
             <id>github</id>
             <name>Common Entity for Lacicu</name>
-            <url>https://maven.pkg.github.com/acclhack/common</url>
+            <url>https://maven.pkg.github.com/accel-hack/accel-parts</url>
         </repository>
     </distributionManagement>
 </project>
