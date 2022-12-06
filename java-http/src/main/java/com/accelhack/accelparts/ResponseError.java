@@ -1,0 +1,23 @@
+package com.accelhack.accelparts;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter(AccessLevel.PACKAGE)
+@AllArgsConstructor
+public class ResponseError {
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String key;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Object value;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String code;
+
+  public static ResponseError build(String key, Object value, String code) {
+    return new ResponseError(key, value, code);
+  }
+}

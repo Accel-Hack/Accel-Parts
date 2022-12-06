@@ -1,0 +1,117 @@
+package com.accelhack.accelparts;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
+
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
+@Getter
+@Setter(AccessLevel.PACKAGE)
+@NoArgsConstructor
+public class ResponseSet<E> {
+  private Long timestamp = new Date().getTime();
+
+  // 共通項目
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private HttpStatus status;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Integer statusCode;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private String message; // 20221114: 今はいらない
+
+  // 成功した時の項目
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private Integer total;
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<Response<E>> results;
+
+  // エラー時の項目
+  @JsonInclude(JsonInclude.Include.NON_NULL)
+  private List<ResponseError> errors;
+
+  public boolean hasErrors() {
+    return Objects.nonNull(errors) && !errors.isEmpty();
+  }
+
+  private ResponseSet(ResponseSet.Builder<E> builder) {
+    // 共通項目
+    this.status = builder.status;
+    this.statusCode = builder.status.value();
+    this.message = builder.message;
+    this.total = builder.total;
+    this.results = builder.results;
+    this.errors = builder.errors;
+  }
+
+  public String encode() throws JsonProcessingException {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.writeValueAsString(this);
+  }
+
+  public static <E> ResponseSet<E> ok(Response<E> result) {
+    return ResponseSet.ok(1, Collections.singletonList(result));
+  }
+
+  public static <E> ResponseSet<E> ok(Integer total, List<Response<E>> results) {
+    return (new Builder<E>()).status(HttpStatus.OK).total(total).results(results).build();
+  }
+
+  public static <E> ResponseSet<E> error(HttpStatus status, List<ResponseError> errors) {
+    return (new Builder<E>()).status(status).errors(errors).build();
+  }
+
+  public static <E> ResponseSet<E> internalServerError() {
+    return (new Builder<E>()).status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+  }
+
+  @NoArgsConstructor
+  static class Builder<B> {
+    private HttpStatus status;
+    private String message; // 20221114: 今はいらない
+
+    // 成功した時の項目
+    private Integer total;
+    private List<Response<B>> results;
+
+    // エラー時の項目
+    private List<ResponseError> errors;
+
+    ResponseSet.Builder<B> status(HttpStatus status) {
+      this.status = status;
+      return this;
+    }
+
+    ResponseSet.Builder<B> message(String message) {
+      this.message = message;
+      return this;
+    }
+
+    ResponseSet.Builder<B> total(Integer total) {
+      this.total = total;
+      return this;
+    }
+
+    ResponseSet.Builder<B> results(List<Response<B>> results) {
+      this.results = results;
+      return this;
+    }
+
+    ResponseSet.Builder<B> errors(List<ResponseError> errors) {
+      this.errors = errors;
+      return this;
+    }
+
+    ResponseSet<B> build() {
+      return new ResponseSet<B>(this);
+    }
+  }
+}
