@@ -1,6 +1,6 @@
-# java-http
+# java-utils
 
-通信用のクラスをまとめたリポジトリ
+Utilをまとめたリポジトリ
 
 ## 手動でpackageを更新
 
@@ -18,4 +18,4 @@
 
 以下を参考
 
-* [com.accelhack.accelparts.http](https://github.com/Accel-Hack/Accel-Parts/packages/1742698)
+* [com.accelhack.accelparts.utils](https://github.com/Accel-Hack/Accel-Parts/packages/1742699)
