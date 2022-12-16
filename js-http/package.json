@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "publish": "npm install && npx tsc && npm publish",
+    "deploy": "npm install && npx tsc && npm publish",
     "test": "jest"
   },
   "keywords": [],

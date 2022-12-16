@@ -8,12 +8,12 @@
 0. create `.npmrc` file
    1. ```
       //npm.pkg.github.com/:_authToken=<GITHUB_TOKEN>
-      @accelhack:registry=https://npm.pkg.github.com/
+      @accel-hack:registry=https://npm.pkg.github.com/
       ```
-1. run `npm run publish`
+1. run `npm run deploy`
 
 
 ## How to install
 1. add dependencies
-   * `"@lacicu/web-common": "version(ex 0.9.0)"` in package.json 
+   * `"@accel-hack/accel-parts-http": "version(ex 0.9.0)"` in package.json 
 2. run `npm install`
