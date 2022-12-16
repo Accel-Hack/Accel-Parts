@@ -20,11 +20,11 @@ class Response<E> {
     this.result = props.result
   }
 
-  static decode<E>(object: any): Response<E> {
+  static decode<E>(object: any, decoder?: ((_: any) => E)): Response<E> {
     const props = {
       operationKey: object.operationKey,
       operationStatus: object.operationStatus,
-      result: object.result as E, // FIXME: ここでclassにdecodeしたい
+      result: decoder?.(object.result) ?? object.result,
       errors: object.errors,
     } as ResponseProps<E>
     return new Response(props)

@@ -37,13 +37,13 @@ class ResponseSet<E> {
     this.errors = props.errors
   }
 
-  static decode<E>(object: any): ResponseSet<E> {
+  static decode<E>(object: any, decoder?: ((_: any) => E)): ResponseSet<E> {
     const props = {
       timestamp: object.timestamp,
       statusCode: object.statusCode,
       message: object.message,
       total: object.total,
-      results: object.results?.map((_: any) => Response.decode(_)),
+      results: object.results?.map((_: any) => Response.decode(_, decoder)),
       errors: object.errors?.map((_: any) => ResponseError.decode(_))
     } as ResponseSetProps<E>
     return new ResponseSet(props)

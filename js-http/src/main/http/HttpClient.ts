@@ -12,21 +12,21 @@ class HttpClient {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
   }
 
-  static get<E>(url: string, option: object = {}): Promise<ResponseSet<E> | any> {
+  static get<E>(url: string, decoder?: ((_: any) => E), option: object = {}): Promise<ResponseSet<E> | any> {
     const getOption = {...this.defaultConfig, ...option, method: "GET"}
     return this.fetch<E>(url, getOption)
   }
 
-  static post<E>(url: string, body: any, option: object = {}): Promise<ResponseSet<E> | any> {
+  static post<E>(url: string, body: any, decoder?: ((_: any) => E), option: object = {}): Promise<ResponseSet<E> | any> {
     const postOption = {...this.defaultConfig, ...option, body: JSON.stringify(body), method: "POST"}
-    return this.fetch<E>(url, postOption)
+    return this.fetch<E>(url, postOption, decoder)
   }
 
-  static fetch<E>(url: string, option: object): Promise<ResponseSet<E> | any> {
+  static fetch<E>(url: string, option: object, decoder?: ((_: any) => E)): Promise<ResponseSet<E> | any> {
     return new Promise((resolve, reject) => {
       fetch(url, option)
         .then(response => response.json())
-        .then(json => resolve(ResponseSet.decode<E>(json)))
+        .then(json => resolve(ResponseSet.decode<E>(json, decoder)))
         .catch(error => reject(error))
     })
   }
