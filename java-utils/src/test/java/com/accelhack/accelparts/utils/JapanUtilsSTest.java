@@ -9,11 +9,22 @@ public class JapanUtilsSTest {
 
   @ParameterizedTest
   @CsvSource({
+    /* 全角カナ一覧 */ "true, ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ",
+    /* 空文字　　　 */ "true, ''",
+    /* 全角かな　　 */ "false, あアイウエオ",
+    /* 数字　　　　 */ "false, あ20220912",
+  })
+  void isZenkakuHiragana(boolean expected, String hiraganaStr) {
+    assertEquals(expected, JapanUtils.isZenkakuHiragana(hiraganaStr));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
     /* 全角カナ一覧 */ "true, ァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶ, ",
     /* 空文字　　　 */ "true, ''",
     /* 半角カナ一覧 */ "false, ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｯｬｭｮｰｶﾞｷﾞｸﾞｹﾞｺﾞｻﾞｼﾞｽﾞｾﾞｿﾞﾀﾞﾁﾞﾂﾞﾃﾞﾄﾞﾊﾞﾋﾞﾌﾞﾍﾞﾎﾞﾊﾟﾋﾟﾌﾟﾍﾟﾎﾟｳﾞ, ",
-    /* 全角かな　　 */ "false, あいうえお",
-    /* 数字　　　　 */ "false, 20220912",
+    /* 全角かな　　 */ "false, アあいうえお",
+    /* 数字　　　　 */ "false, ア20220912",
   })
   void isZenkakuKatakana(boolean expected, String katakanaStr) {
     assertEquals(expected, JapanUtils.isZenkakuKatakana(katakanaStr));

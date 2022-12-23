@@ -3,6 +3,23 @@ package com.accelhack.accelparts.utils;
 import java.util.regex.Pattern;
 
 public class JapanUtils {
+
+  /**
+   * check if string only contains zenkaku katakana
+   * @param value string to check
+   * @return result
+   */
+  public static boolean isZenkakuHiragana(String value) {
+    String hiraganaInput = value.replace(" ", "");
+    if (hiraganaInput.equals("")) {
+      return true; // 空文字ならOKとする.
+    }
+    String regex = "^[\\u3040-\\u309F]*$";
+    return hiraganaInput.chars()
+      .mapToObj(c -> (char) c)
+      .allMatch(c -> Pattern.matches(regex, String.valueOf(c)));
+  }
+
   /**
    * check if string only contains zenkaku katakana
    * @param value string to check
@@ -16,7 +33,7 @@ public class JapanUtils {
     String regex = "^[ァ-ヶー]*$";
     return katakanaInput.chars()
       .mapToObj(c -> (char) c)
-      .anyMatch(c -> Pattern.matches(regex, String.valueOf(c)));
+      .allMatch(c -> Pattern.matches(regex, String.valueOf(c)));
   }
 
   /**
