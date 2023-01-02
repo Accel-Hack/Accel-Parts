@@ -1,10 +1,7 @@
 package com.accelhack.accelparts;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -43,19 +40,21 @@ public class Response<E> {
   //    return Response.withResult(1, result);
   //  }
 
-  //  public static <E> Response<E> withError(Integer key, List<ResponseError> errors) {
-  //    return (new Builder<E>())
-  //      .operationKey(key)
-  //      .operationStatus(false)
-  //      .errors(errors)
-  //      .build();
-  //  }
-  //  public static <E> Response<E> withError(Long key, List<ResponseError> errors) {
-  //    return Response.withError(Math.toIntExact(key), errors);
-  //  }
-  //  public static <E> Response<E> withError(List<ResponseError> errors) {
-  //    return Response.withError(1, errors);
-  //  }
+  public static <E> Response<E> withError(Integer key, List<ResponseError> errors) {
+    return (new Builder<E>())
+      .operationKey(key)
+      .operationStatus(false)
+      .errors(errors)
+      .build();
+  }
+
+  public static <E> Response<E> withError(Long key, List<ResponseError> errors) {
+    return Response.withError(Math.toIntExact(key), errors);
+  }
+
+  public static <E> Response<E> withError(List<ResponseError> errors) {
+    return Response.withError(1, errors);
+  }
 
 
   @NoArgsConstructor
