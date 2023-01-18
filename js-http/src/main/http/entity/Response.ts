@@ -24,7 +24,7 @@ class Response<E> {
     const props = {
       operationKey: object.operationKey,
       operationStatus: object.operationStatus,
-      result: decoder?.(object.result) ?? object.result,
+      result: object.operationStatus && decoder ? decoder(object.result) : object.result,
       errors: object.errors,
     } as ResponseProps<E>
     return new Response(props)
