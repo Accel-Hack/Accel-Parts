@@ -6,7 +6,8 @@ class HttpClient {
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     credentials: "same-origin", // include, *same-origin, omit
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "X-Requested-With": "XMLHttpRequest"
     },
     redirect: "follow", // manual, *follow, error
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
@@ -25,8 +26,13 @@ class HttpClient {
   static fetch<E>(url: string, option: object, decoder?: ((_: any) => E)): Promise<ResponseSet<E> | any> {
     return new Promise((resolve, reject) => {
       fetch(url, option)
-        .then(response => response.json())
-        .then(json => resolve(ResponseSet.decode<E>(json, decoder)))
+        .then(response => {
+          if (response.status != 200) {
+            resolve(ResponseSet.error<E>(response.status, response.statusText))
+          } else {
+            response.json().then(json => resolve(ResponseSet.decode<E>(json, decoder)))
+          }
+        })
         .catch(error => reject(error))
     })
   }

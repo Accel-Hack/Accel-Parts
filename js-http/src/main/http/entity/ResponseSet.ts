@@ -37,6 +37,15 @@ class ResponseSet<E> {
     this.errors = props.errors
   }
 
+  static error<E>(statusCode: number, message: string): ResponseSet<E> {
+    const props = {
+      timestamp: Date.now(),
+      statusCode: statusCode,
+      message: message,
+    } as ResponseSetProps<E>
+    return new ResponseSet(props)
+  }
+
   static decode<E>(object: any, decoder?: ((_: any) => E)): ResponseSet<E> {
     const props = {
       timestamp: object.timestamp,
