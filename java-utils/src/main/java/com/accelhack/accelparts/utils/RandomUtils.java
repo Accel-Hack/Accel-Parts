@@ -12,8 +12,8 @@ public class RandomUtils {
    * @return result
    */
   public static String alphaNumeric(int length) {
-    // ASCII範囲–英数字(0-9、a-z、A-Z)
-    final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    // ASCII範囲–英数字(0-9、a-z、A-Z) lIL1oO0はわかりにくいので除外
+    final String chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
 
     SecureRandom random = new SecureRandom();
 
