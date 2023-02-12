@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.accelhack.accelparts</groupId>
     <artifactId>http</artifactId>
-    <version>0.9.2</version>
+    <version>1.0.0</version>
     <name>http</name>
 
     <build>
@@ -24,7 +24,7 @@
     <properties>
         <org.springframework.spring-web.version>5.3.23</org.springframework.spring-web.version>
         <org.springframework.validation.version>2.7.5</org.springframework.validation.version>
-        <com.fasterxml.jackson.core.databind.version>2.14.0</com.fasterxml.jackson.core.databind.version>
+        <com.accelhack.accelparts.utils.version>1.0.0</com.accelhack.accelparts.utils.version>
         <com.google.guava.version>31.1-jre</com.google.guava.version>
         <!--packages for compile-->
         <org.projectlombok.lombock.version>1.18.24</org.projectlombok.lombock.version>
@@ -45,6 +45,11 @@
             <version>${org.springframework.validation.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.accelhack.accelparts</groupId>
+            <artifactId>utils</artifactId>
+            <version>${com.accelhack.accelparts.utils.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${com.google.guava.version}</version>
@@ -55,16 +60,6 @@
             <artifactId>lombok</artifactId>
             <version>${org.projectlombok.lombock.version}</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${com.fasterxml.jackson.core.databind.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${com.fasterxml.jackson.core.databind.version}</version>
         </dependency>
         <!--packages for tests-->
         <dependency>

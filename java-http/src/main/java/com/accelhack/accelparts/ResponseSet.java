@@ -2,22 +2,19 @@ package com.accelhack.accelparts;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor
 public class ResponseSet<E> {
+
   private Long timestamp = new Date().getTime();
 
   // 共通項目
@@ -53,7 +50,9 @@ public class ResponseSet<E> {
   }
 
   public String encode() throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
+    JsonMapper mapper = new JsonMapper();
+    mapper.registerModule(new JavaTimeModule());
+    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
     return mapper.writeValueAsString(this);
   }
 
