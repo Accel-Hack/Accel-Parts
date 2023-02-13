@@ -1,10 +1,10 @@
 import Response from "./Response";
 import ResponseError from "./ResponseError";
+import HttpStatus from "../enum/HttpStatus";
 
 type ResponseSetProps<E> = {
   timestamp: number
-
-  statusCode: number
+  statusCode: HttpStatus
   message: string
 
   // 成功した時の項目
@@ -18,7 +18,7 @@ type ResponseSetProps<E> = {
 class ResponseSet<E> {
   readonly timestamp: number
 
-  readonly statusCode: number
+  readonly statusCode: HttpStatus
   readonly message: string
 
   // 成功した時の項目

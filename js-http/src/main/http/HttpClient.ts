@@ -1,4 +1,5 @@
 import ResponseSet from "./entity/ResponseSet";
+import HttpStatus from "./enum/HttpStatus";
 
 class HttpClient {
   private static defaultConfig = {
@@ -27,13 +28,18 @@ class HttpClient {
     return new Promise((resolve, reject) => {
       fetch(url, option)
         .then(response => {
-          if (response.status != 200) {
+          if (response.status != HttpStatus.OK) { // status code of http connection
+            // map status code to entity
             resolve(ResponseSet.error<E>(response.status, response.statusText))
           } else {
             response.json().then(json => resolve(ResponseSet.decode<E>(json, decoder)))
           }
         })
-        .catch(error => reject(error))
+        // It will only reject on network failure or if anything prevented the request from completing.
+        // ref: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API#differences_from_jquery
+        .catch(err => resolve(ResponseSet.error<E>(HttpStatus.NO_CONNECTION, err.message)))
+        // un expected error
+        .catch(err => reject(err))
     })
   }
 }
