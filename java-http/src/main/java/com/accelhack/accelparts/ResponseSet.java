@@ -84,12 +84,12 @@ public class ResponseSet<E> {
     // エラー時の項目
     private List<ResponseError> errors;
 
-    ResponseSet.Builder<B> status(HttpStatus status) {
+    Builder<B> status(HttpStatus status) {
       this.status = status;
       return this;
     }
 
-    ResponseSet.Builder<B> message(String message) {
+    Builder<B> message(String message) {
       this.message = message;
       return this;
     }
@@ -99,12 +99,12 @@ public class ResponseSet<E> {
       return this;
     }
 
-    ResponseSet.Builder<B> results(List<Response<B>> results) {
+    Builder<B> results(List<Response<B>> results) {
       this.results = results;
       return this;
     }
 
-    ResponseSet.Builder<B> errors(List<ResponseError> errors) {
+    Builder<B> errors(List<ResponseError> errors) {
       this.errors = errors;
       return this;
     }
