@@ -2,46 +2,37 @@ package com.accelhack.accelparts;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Streams;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import javax.validation.*;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Request<E extends Operand> {
+public class Request<Req extends Operand> {
   private Long timestamp = new Date().getTime();
   @NonNull
   @JsonInclude(JsonInclude.Include.NON_NULL)
-  private List<E> operands;
+  private List<Req> operands;
 
-  public E findFirst() {
+  public Req findFirst() {
     return operands.stream().findFirst().orElseThrow();
   }
 
-  public <T> ResponseSet<T> validate(Validator validator) {
-    List<ResponseError> requestErrors = validator.validate(this)
-      .stream().map(error -> ResponseError.build("key", operands, "CODE")).collect(Collectors.toList());
+  public <Res> ResponseSet<Res> validate(Validator validator, Class<?>... groups) {
+    List<ResponseError> requestErrors = validator.validate(this, groups).stream().map(error -> ResponseError.build("key", operands, "CODE")).collect(Collectors.toList());
     if (!requestErrors.isEmpty()) {
-      return (new ResponseSet.Builder<T>())
+      return (new ResponseSet.Builder<Res>())
         .status(HttpStatus.OK)
         .errors(requestErrors)
         .build();
     }
 
-    List<Response<T>> responses = Streams.mapWithIndex(operands.stream(),
+    List<Response<Res>> responses = Streams.mapWithIndex(operands.stream(),
       (operand, index) -> {
         Set<ConstraintViolation<Operand>> operandErrors = validator.validate(operand);
         if (operandErrors.isEmpty()) {
@@ -54,7 +45,7 @@ public class Request<E extends Operand> {
               error.getInvalidValue(),
               error.getMessage()))
           .collect(Collectors.toList());
-        return (new Response.Builder<T>())
+        return (new Response.Builder<Res>())
           .operationKey(Math.toIntExact(index))
           .operationStatus(false)
           .errors(responseErrors)
@@ -68,12 +59,12 @@ public class Request<E extends Operand> {
     return null;
   }
 
-  public <T> ResponseSet<T> validate() {
+  public <Res> ResponseSet<Res> validate() {
     Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
     return this.validate(validator);
   }
 
-  public Stream<E> toStream() {
+  public Stream<Req> toStream() {
     return getOperands().stream();
   }
 }
