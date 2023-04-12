@@ -2,16 +2,17 @@ package com.accelhack.accelparts;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.common.collect.Streams;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import lombok.*;
 import org.springframework.http.HttpStatus;
 
-import javax.validation.*;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class Request<Req extends Operand> {
   private Long timestamp = new Date().getTime();
@@ -57,11 +58,6 @@ public class Request<Req extends Operand> {
       return ResponseSet.ok(responses.size(), responses);
     }
     return null;
-  }
-
-  public <Res> ResponseSet<Res> validate() {
-    Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-    return this.validate(validator);
   }
 
   public Stream<Req> toStream() {

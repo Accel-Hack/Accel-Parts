@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.accelhack.accelparts</groupId>
     <artifactId>http</artifactId>
-    <version>1.0.4</version>
+    <version>2.0.0</version>
     <name>http</name>
 
     <build>
@@ -22,8 +22,8 @@
     </build>
 
     <properties>
-        <org.springframework.spring-web.version>5.3.23</org.springframework.spring-web.version>
-        <org.springframework.validation.version>2.7.5</org.springframework.validation.version>
+        <org.springframework.spring-web.version>6.0.7</org.springframework.spring-web.version>
+        <org.springframework.validation.version>3.0.4</org.springframework.validation.version>
         <com.accelhack.accelparts.utils.version>1.0.4</com.accelhack.accelparts.utils.version>
         <com.google.guava.version>31.1-jre</com.google.guava.version>
         <!--packages for compile-->
