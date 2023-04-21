@@ -9,6 +9,17 @@ public class JapanUtilsSTest {
 
   @ParameterizedTest
   @CsvSource({
+    /* 英字（スペース）   */ "TanakaTaro, Tanaka Taro  ",
+    /* 英字（スペースなし）*/ "TanakaTaro,TanakaTaro",
+    /* かな（スペース）   */ "田中太郎, 田中太郎",
+    /* かな（スペースなし）*/ "田中太郎, 田  中　 太　　　郎",
+  })
+  void removeWhitespace(String expected, String hiraganaStr) {
+    assertEquals(expected, JapanUtils.removeWhitespace(hiraganaStr));
+  }
+
+  @ParameterizedTest
+  @CsvSource({
     /* 全角カナ一覧 */ "true, ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ",
     /* 空文字　　　 */ "true, ''",
     /* 全角かな　　 */ "false, あアイウエオ",

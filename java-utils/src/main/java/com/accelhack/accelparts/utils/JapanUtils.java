@@ -5,6 +5,15 @@ import java.util.regex.Pattern;
 public class JapanUtils {
 
   /**
+   * remove all whitespace of string value
+   * @param value string with no whitespace
+   * @return result
+   */
+  public static String removeWhitespace(String value) {
+    return value.replaceAll("\\s|　", "");
+  }
+
+  /**
    * check if string only contains zenkaku katakana
    * @param value string to check
    * @return result
